@@ -11,13 +11,13 @@ React에서는 컴포넌트를 감싸서 추상화하는 것이 일반적인 패
 [JSX 스프레드 어트리뷰트](/react/docs/jsx-spread-ko-KR.html)를 통해 props에 추가적인 값을 병합할 수 있습니다.
 
 ```javascript
-return <Component {...this.props} more="values" />;
+<Component {...this.props} more="values" />
 ```
 
 만약 JSX를 사용하지 않는다면 ES6의 `Object.assign`나 Underscore의 `_.extend` 같은 객체 헬퍼를 사용할 수 있습니다:
 
 ```javascript
-return Component(Object.assign({}, this.props, { more: 'values' }));
+React.createElement(Component, Object.assign({}, this.props, { more: 'values' }));
 ```
 
 이 튜토리얼의 나머지 부분은 모범 답안을 소개할 것입니다. JSX와 실험적인 ES7 구문을 사용합니다.
@@ -51,7 +51,7 @@ React.render(
 
 > 주의:
 > 
-> 아래의 예제에서는 실험적인 ES7 문법이 사용되었기 때문에 `--harmony ` 플래그가 필요합니다. 브라우저에서 JSX 변환기를 사용 중이라면, `<script type="text/jsx;harmony=true">`를 사용해 스크립트를 작성하세요. 자세히 알아보려면 아래의 [잔여 프로퍼티와 스프레드 프로퍼티 ...](http://facebook.github.io/react/docs/transferring-props-ko-KR.html#rest-and-spread-properties-...)를 확인하세요.
+> 아래의 예제에서는 실험적인 ES7 문법이 사용되었기 때문에 `--harmony ` 플래그가 필요합니다. 브라우저에서 JSX 변환기를 사용 중이라면, `<script type="text/jsx;harmony=true">`를 사용해 스크립트를 작성하세요. 자세히 알아보려면 아래의 [잔여 프로퍼티와 스프레드 프로퍼티 ...](/react/docs/transferring-props-ko-KR.html#rest-and-spread-properties-...)를 확인하세요.
 
 때로는 모든 프로퍼티를 일일이 전달 하는것은 지루하고 덧없는 작업입니다. 이 경우 [구조 해체 할당(destructuring assignment)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)을 다른 프로퍼티를 함께 사용해 미상의 프로퍼티를 추출할 수 있습니다.
 
@@ -144,7 +144,7 @@ z; // { a: 3, b: 4 }
 
 > 주의:
 >
-> 실험적인 ES7 구문을 활성화하려면 [JSX 커맨드라인 도구](http://npmjs.org/package/react-tools)를 `--harmony` 플래그와 함께 사용하세요.
+> 실험적인 ES7 구문을 활성화하려면 [JSX 커맨드라인 도구](https://www.npmjs.com/package/react-tools)를 `--harmony` 플래그와 함께 사용하세요.
 
 ## Underscore로 전달 다루기
 

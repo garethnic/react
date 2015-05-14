@@ -99,7 +99,7 @@ describe('ReactElementValidator', function() {
     expect(console.error.argsForCall.length).toBe(1);
     expect(console.error.argsForCall[0][0]).toBe(
       'Warning: Each child in an array or iterator should have a unique ' +
-      '"key" prop. See http://fb.me/react-warning-keys for more information.'
+      '"key" prop. See https://fb.me/react-warning-keys for more information.'
     );
   });
 
@@ -116,8 +116,82 @@ describe('ReactElementValidator', function() {
     expect(console.error.argsForCall[0][0]).toBe(
       'Warning: Each child in an array or iterator should have a unique ' +
       '"key" prop. Check the React.render call using <div>. See ' +
-      'http://fb.me/react-warning-keys for more information.'
+      'https://fb.me/react-warning-keys for more information.'
     );
+  });
+
+  it('warns for keys for nested arrays of elements', function() {
+    spyOn(console, 'error');
+
+    var divs = [
+      [
+        <div />,
+        <div />
+      ],
+      <div key="foo" />
+    ];
+    ReactTestUtils.renderIntoDocument(<div>{divs}</div>);
+
+    expect(console.error.argsForCall.length).toBe(1);
+    expect(console.error.argsForCall[0][0]).toBe(
+      'Warning: Each child in a nested array or iterator should have a ' +
+      'unique "key" prop. Check the React.render call using <div>. See ' +
+      'https://fb.me/react-warning-keys for more information.'
+    );
+  });
+
+  it('warns for keys when reusing children', function() {
+    spyOn(console, 'error');
+
+    var f = <span />;
+    var g = <span />;
+
+    var children = [f, g];
+
+    ReactTestUtils.renderIntoDocument(
+      <div>
+        <div key="0">
+          {g}
+        </div>
+        <div key="1">
+          {f}
+        </div>
+        <div key="2">
+          {children}
+        </div>
+      </div>
+    );
+
+    expect(console.error.argsForCall.length).toBe(1);
+    expect(console.error.argsForCall[0][0]).toBe(
+      'Warning: Each child in an array or iterator should have a unique ' +
+      '"key" prop. Check the React.render call using <div>. See ' +
+      'https://fb.me/react-warning-keys for more information.'
+    );
+  });
+
+  it('does not warn for keys when passing children down', function() {
+    spyOn(console, 'error');
+
+    var Wrapper = React.createClass({
+      render: function() {
+        return (
+          <div>
+            {this.props.children}
+            <footer />
+          </div>
+        );
+      }
+    });
+
+    ReactTestUtils.renderIntoDocument(
+      <Wrapper>
+        <span />
+        <span />
+      </Wrapper>
+    );
+
+    expect(console.error.argsForCall.length).toBe(0);
   });
 
   it('warns for keys for iterables of elements in rest args', function() {

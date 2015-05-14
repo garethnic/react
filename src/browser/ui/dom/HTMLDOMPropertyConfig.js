@@ -9,8 +9,6 @@
  * @providesModule HTMLDOMPropertyConfig
  */
 
-/*jslint bitwise: true*/
-
 'use strict';
 
 var DOMProperty = require('DOMProperty');
@@ -38,7 +36,6 @@ if (ExecutionEnvironment.canUseDOM) {
     )
   );
 }
-
 
 var HTMLDOMPropertyConfig = {
   isCustomAttribute: RegExp.prototype.test.bind(
